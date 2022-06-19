@@ -1,10 +1,10 @@
 ﻿using GeekShopping.CartApi.Data.ValueObjects;
+using GeekShopping.MessageBus;
 
 namespace GeekShopping.CartApi.Messages
 {
-    public class CheckoutHeaderVO
+    public class CheckoutHeaderVO : BaseMessage
     {
-        public long Id { get; set; }
         public string UserId { get; set; }
         public string? CouponCode { get; set; }
         public decimal PurchaseAmount { get; set; }
@@ -19,6 +19,6 @@ namespace GeekShopping.CartApi.Messages
         public string ExpiryMonthYear { get; set; }
 
         public int CartTotalItens { get; set; }
-        public IEnumerable<CartDetailVO>? cartDetails { get; set; }
+        public IEnumerable<CartDetailVO>? CartDetails { get; set; }
     }
 }

@@ -81,9 +81,14 @@ namespace GeekShopping.Web.Controllers
         {
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            var response = await _cartService.Checkout(model.CartHeader,token);
-
-            if (response != null)
+            var response = await _cartService.Checkout(model.CartHeader, token);
+         
+            if (response != null && response.GetType() == typeof(string))
+            {
+                TempData["Error"] = response;
+                return RedirectToAction(nameof(Checkout));
+            }
+            else if (response != null)
                 return RedirectToAction(nameof(Confirmation));
 
             return View(model);
@@ -106,9 +111,9 @@ namespace GeekShopping.Web.Controllers
             {
                 if (!string.IsNullOrWhiteSpace(response.CartHeader.CouponCode))
                 {
-                    var coupon = await _couponService.GetCoupon(response.CartHeader.CouponCode, token); 
+                    var coupon = await _couponService.GetCoupon(response.CartHeader.CouponCode, token);
 
-                    if(coupon?.CouponCode != null)
+                    if (coupon?.CouponCode != null)
                     {
                         response.CartHeader.DiscountAmount = coupon.DiscountAmount;
                     }

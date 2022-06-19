@@ -16,10 +16,10 @@ namespace GeekShopping.Web.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task<CouponViewModel> GetCoupon(string code, string token)
+        public async Task<CouponViewModel> GetCoupon(string couponCode, string token)
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _client.GetAsync($"{BasePath}/{code}");
+            var response = await _client.GetAsync($"{BasePath}/{couponCode}");
 
             if (response.StatusCode != HttpStatusCode.OK)
                 return new CouponViewModel();
